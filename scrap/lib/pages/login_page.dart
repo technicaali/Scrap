@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -67,9 +67,10 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // logo
-                const Icon(
+                Icon(
                   Icons.lock,
                   size: 100,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
 
                 const SizedBox(height: 50),
@@ -77,7 +78,9 @@ class _LoginPageState extends State<LoginPage> {
                 // welcome back message
                 Text(
                   "Welcome back, we missed you.",
-                  style: TextStyle(color: Colors.grey[700], fontSize: 16),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 16),
                 ),
 
                 const SizedBox(height: 25),
@@ -110,16 +113,18 @@ class _LoginPageState extends State<LoginPage> {
                     Text(
                       'Not a member?',
                       style: TextStyle(
-                        color: Colors.grey[700],
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: widget.onTap,
-                      child: const Text(
+                      child: Text(
                         "Register now.",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.blue),
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).colorScheme.inversePrimary),
                       ),
                     )
                   ],

@@ -14,6 +14,7 @@ dependencies:
   firebase_core: ^2.27.0
   firebase_auth: ^4.17.8
   cloud_firestore: ^4.15.8
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -33,10 +34,10 @@ flutter:
   fonts:
     - family: Inconsolata
       fonts:
-        - asset: assets/Inconsolata-Regular.ttf
+        - asset: assets/fonts/Inconsolata-Regular.ttf
     - family: Karla
       fonts:
-        - asset: assets/Karla-Regular.ttf
+        - asset: assets/fonts/Karla-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

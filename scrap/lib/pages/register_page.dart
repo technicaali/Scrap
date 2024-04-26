@@ -55,7 +55,7 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -63,10 +63,8 @@ class RegisterPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // logo
-              const Icon(
-                Icons.lock,
-                size: 100,
-              ),
+              Icon(Icons.lock,
+                  size: 100, color: Theme.of(context).colorScheme.primary),
 
               const SizedBox(height: 50),
 
@@ -74,7 +72,7 @@ class RegisterPage extends StatelessWidget {
               Text(
                 "Let's create an account for you.",
                 style: TextStyle(
-                  color: Colors.grey.shade700,
+                  color: Theme.of(context).colorScheme.primary,
                   fontSize: 16,
                 ),
               ),
@@ -120,16 +118,16 @@ class RegisterPage extends StatelessWidget {
                   Text(
                     "Already have an account? ",
                     style: TextStyle(
-                      color: Colors.grey.shade700,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   GestureDetector(
                     onTap: onTap,
-                    child: const Text(
+                    child: Text(
                       "Login.",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: Theme.of(context).colorScheme.inversePrimary,
                       ),
                     ),
                   )
