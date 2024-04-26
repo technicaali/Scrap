@@ -1,10 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:scrap/components/my_button.dart';
 import 'package:scrap/components/my_textfield.dart';
+import 'package:scrap/services/auth/auth.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
-  const LoginPage({
+  LoginPage({
     super.key,
     required this.onTap,
   });
@@ -17,6 +19,41 @@ class _LoginPageState extends State<LoginPage> {
   // text editing controllers
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
+
+  // login method
+  void login(BuildContext context) async {
+    // auth service
+    final authService = Auth();
+
+    // show loading circle
+    showDialog(
+        context: context,
+        builder: (context) => const Center(child: CircularProgressIndicator()));
+
+    // try login
+    try {
+      await authService.signInWithEmailAndPassword(
+        emailTextController.text,
+        passwordTextController.text,
+      );
+
+      // pop loading circle
+      if (context.mounted) Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      // pop loading circle
+      if (context.mounted) Navigator.pop(context);
+      displayMessage(e.code);
+    }
+  }
+
+  // display dialog message
+  void displayMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(message),
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                 // welcome back message
                 Text(
                   "Welcome back, we missed you.",
-                  style: TextStyle(
-                    color: Colors.grey[700],
-                  ),
+                  style: TextStyle(color: Colors.grey[700], fontSize: 16),
                 ),
 
                 const SizedBox(height: 25),
@@ -64,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 10),
 
                 // sign in button
-                MyButton(text: 'Sign In', onTap: () {}),
+                MyButton(text: 'Sign In', onTap: () => login(context)),
 
                 const SizedBox(height: 10),
 
@@ -78,10 +113,10 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.grey[700],
                       ),
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     GestureDetector(
                       onTap: widget.onTap,
-                      child: Text(
+                      child: const Text(
                         "Register now.",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.blue),
