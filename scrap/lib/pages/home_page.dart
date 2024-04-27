@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:scrap/components/my_drawer.dart';
 import 'package:scrap/components/my_textfield.dart';
 import 'package:scrap/components/my_wallpost.dart';
 
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
         'user email': currentUser.email,
         'message': textController.text,
         'time stamp': Timestamp.now(),
+        'likes': [],
       });
     }
 
@@ -47,15 +49,23 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text(
-          "SCRAP",
-          style: TextStyle(fontFamily: 'Karla', fontWeight: FontWeight.bold),
+          "scrap",
+          style: TextStyle(
+            fontFamily: 'Karla',
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
         ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           // sign out button
-          IconButton(onPressed: logout, icon: Icon(Icons.logout))
+          IconButton(
+              onPressed: logout,
+              icon: Icon(Icons.logout,
+                  color: Theme.of(context).colorScheme.tertiary))
         ],
       ),
+      drawer: MyDrawer(),
       body: Center(
         child: Column(
           children: [
@@ -74,16 +84,17 @@ class _HomePageState extends State<HomePage> {
                         // get the message
                         final post = snapshot.data!.docs[index];
                         return WallPost(
-                          message: post['message'],
-                          user: post['user email'],
-                        );
+                            message: post['message'],
+                            user: post['user email'],
+                            postID: post.id,
+                            likes: List<String>.from(post['likes'] ?? []));
                       }));
                 } else if (snapshot.hasError) {
                   return Center(
-                    child: Text("Error: " + snapshot.error.toString()),
+                    child: Text("Error: ${snapshot.error}"),
                   );
                 }
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }),
@@ -113,9 +124,11 @@ class _HomePageState extends State<HomePage> {
 
             // logged in as
             Text(
-              "What's on your mind " + currentUser.email! + "?",
+              "What's on your mind ${currentUser.email!}?",
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.inversePrimary),
+                color: Theme.of(context).colorScheme.inversePrimary,
+                fontFamily: 'Karla',
+              ),
             ),
 
             const SizedBox(height: 15),
