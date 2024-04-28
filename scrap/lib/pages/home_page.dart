@@ -5,6 +5,7 @@ import 'package:scrap/components/my_drawer.dart';
 import 'package:scrap/components/my_textfield.dart';
 import 'package:scrap/components/my_wallpost.dart';
 import 'package:scrap/pages/profile_page.dart';
+import 'package:scrap/services/helper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -67,10 +68,9 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(
             fontFamily: 'Karla',
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.tertiary,
+            color: Theme.of(context).colorScheme.inversePrimary,
           ),
         ),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       drawer: MyDrawer(
         onProfileTap: toProfilePage,
@@ -94,10 +94,12 @@ class _HomePageState extends State<HomePage> {
                         // get the message
                         final post = snapshot.data!.docs[index];
                         return WallPost(
-                            message: post['message'],
-                            user: post['user email'],
-                            postID: post.id,
-                            likes: List<String>.from(post['likes'] ?? []));
+                          message: post['message'],
+                          user: post['user email'],
+                          postID: post.id,
+                          likes: List<String>.from(post['likes'] ?? []),
+                          time: formatDate(post['time stamp']),
+                        );
                       }));
                 } else if (snapshot.hasError) {
                   return Center(

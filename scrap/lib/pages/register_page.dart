@@ -1,14 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:scrap/components/my_button.dart';
 import 'package:scrap/components/my_textfield.dart';
-import 'package:scrap/services/auth/auth.dart';
 
-class RegisterPage extends StatelessWidget {
-  //email and pw text controllers
-  final TextEditingController emailTextController = TextEditingController();
-  final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController confirmTextController = TextEditingController();
-
+class RegisterPage extends StatefulWidget {
   final Function()? onTap;
 
   RegisterPage({
@@ -16,40 +12,72 @@ class RegisterPage extends StatelessWidget {
     required this.onTap,
   });
 
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  //email and pw text controllers
+  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController passwordTextController = TextEditingController();
+  final TextEditingController confirmTextController = TextEditingController();
+
   // register method
-  void register(BuildContext context) async {
-    // get auth service
-    final _auth = Auth();
-
-    //show loading circle
+  void register() async {
+    // show loading circle
     showDialog(
-        context: context,
-        builder: (context) => const Center(child: CircularProgressIndicator()));
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
 
-    // if passwords match, then create user
-    if (passwordTextController.text == confirmTextController.text) {
+    // make sure passwords match
+    if (passwordTextController.text != confirmTextController.text) {
+      // pop loading circle
+      Navigator.pop(context);
+      //show error to user
+      displayMessage("passwords don't match");
+      return;
+    }
+
+    // try creating the user
+    try {
+      // create the user
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailTextController.text,
+        password: passwordTextController.text,
+      );
+
+      // after creating the user, create a new document in the cloud Firestore
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.email)
+          .set({
+        'username': emailTextController.text.split('@')[0],
+        'bio': 'cricket noises...'
+      });
+
       // pop loading circle
       if (context.mounted) Navigator.pop(context);
-      try {
-        _auth.signUpWithEmailPassword(
-            emailTextController.text, passwordTextController.text);
-      } catch (e) {
-        showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: Text(e.toString()),
-                ));
-      }
+    } on FirebaseAuthException catch (e) {
+      // pop loading circle
+      Navigator.pop(context);
+      // show error to user
+      displayMessage(e.code);
     }
+  }
 
-    // passwords dont match -> tell user to fix
-    else {
-      showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-                title: Text("Passwords don't match!"),
-              ));
-    }
+  // display a dialog message
+  void displayMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+                title: Text(
+              message,
+              style: TextStyle(fontFamily: 'Inconsolata'),
+            )));
   }
 
   @override
@@ -110,7 +138,7 @@ class RegisterPage extends StatelessWidget {
               const SizedBox(height: 25),
 
               // login button
-              MyButton(text: "register", onTap: () => register(context)),
+              MyButton(text: "register", onTap: () => register()),
 
               const SizedBox(height: 25),
 
@@ -126,7 +154,7 @@ class RegisterPage extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
-                    onTap: onTap,
+                    onTap: widget.onTap,
                     child: Text(
                       "Login.",
                       style: TextStyle(
