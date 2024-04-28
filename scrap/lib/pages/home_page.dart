@@ -136,9 +136,9 @@ class _HomePageState extends State<HomePage> {
             Text(
               "What's on your mind ${currentUser.email!}?",
               style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
-                fontFamily: 'Karla',
-              ),
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  fontFamily: 'Karla',
+                  fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 15),

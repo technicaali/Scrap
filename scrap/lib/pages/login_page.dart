@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                 Icon(
                   Icons.lock,
                   size: 100,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
 
                 const SizedBox(height: 50),
@@ -80,14 +80,16 @@ class _LoginPageState extends State<LoginPage> {
                   "Welcome back, we missed you.",
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontSize: 16),
+                      fontSize: 16,
+                      fontFamily: 'Karla',
+                      fontWeight: FontWeight.bold),
                 ),
 
                 const SizedBox(height: 25),
 
                 // email text field
                 MyTextField(
-                    hintText: 'Email',
+                    hintText: 'email',
                     obscureText: false,
                     controller: emailTextController),
 
@@ -95,14 +97,14 @@ class _LoginPageState extends State<LoginPage> {
 
                 // password textfield
                 MyTextField(
-                    hintText: 'Password',
+                    hintText: 'password',
                     obscureText: true,
                     controller: passwordTextController),
 
                 const SizedBox(height: 10),
 
                 // sign in button
-                MyButton(text: 'Sign In', onTap: () => login(context)),
+                MyButton(text: 'sign in', onTap: () => login(context)),
 
                 const SizedBox(height: 10),
 
@@ -114,6 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                       'Not a member?',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
+                        fontFamily: 'Karla',
                       ),
                     ),
                     const SizedBox(width: 4),
@@ -122,9 +125,10 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         "Register now.",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color:
-                                Theme.of(context).colorScheme.inversePrimary),
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontFamily: 'Karla',
+                        ),
                       ),
                     )
                   ],

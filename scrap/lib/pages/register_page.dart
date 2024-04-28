@@ -64,7 +64,8 @@ class RegisterPage extends StatelessWidget {
             children: [
               // logo
               Icon(Icons.lock,
-                  size: 100, color: Theme.of(context).colorScheme.primary),
+                  size: 100,
+                  color: Theme.of(context).colorScheme.inversePrimary),
 
               const SizedBox(height: 50),
 
@@ -74,6 +75,8 @@ class RegisterPage extends StatelessWidget {
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontSize: 16,
+                  fontFamily: 'Karla',
+                  fontWeight: FontWeight.bold,
                 ),
               ),
 
@@ -81,7 +84,7 @@ class RegisterPage extends StatelessWidget {
 
               // email text field
               MyTextField(
-                hintText: "Email",
+                hintText: "email",
                 obscureText: false,
                 controller: emailTextController,
               ),
@@ -90,7 +93,7 @@ class RegisterPage extends StatelessWidget {
 
               // pw text field
               MyTextField(
-                hintText: "Password",
+                hintText: "password",
                 obscureText: true,
                 controller: passwordTextController,
               ),
@@ -99,7 +102,7 @@ class RegisterPage extends StatelessWidget {
 
               // confirm pw text field
               MyTextField(
-                hintText: "Confirm Password",
+                hintText: "confirm password",
                 obscureText: true,
                 controller: confirmTextController,
               ),
@@ -107,7 +110,7 @@ class RegisterPage extends StatelessWidget {
               const SizedBox(height: 25),
 
               // login button
-              MyButton(text: "Register", onTap: () => register(context)),
+              MyButton(text: "register", onTap: () => register(context)),
 
               const SizedBox(height: 25),
 
@@ -118,17 +121,18 @@ class RegisterPage extends StatelessWidget {
                   Text(
                     "Already have an account? ",
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                        color: Theme.of(context).colorScheme.primary,
+                        fontFamily: 'Karla',
+                        fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
                     onTap: onTap,
                     child: Text(
                       "Login.",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                      ),
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontFamily: 'Karla'),
                     ),
                   )
                 ],

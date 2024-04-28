@@ -25,10 +25,10 @@ class MyButton extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.tertiary,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+                color: Theme.of(context).colorScheme.tertiary,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontFamily: 'Inconsolata'),
           ),
         ),
       ),
