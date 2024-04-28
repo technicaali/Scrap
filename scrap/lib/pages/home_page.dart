@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:scrap/components/my_drawer.dart';
 import 'package:scrap/components/my_textfield.dart';
 import 'package:scrap/components/my_wallpost.dart';
+import 'package:scrap/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,6 +23,19 @@ class _HomePageState extends State<HomePage> {
   // logout method
   void logout() {
     FirebaseAuth.instance.signOut();
+  }
+
+  // go to profile page
+  void toProfilePage() {
+    // pop menu drawer
+    Navigator.pop(context);
+
+    // go to page
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProfilePage(),
+        ));
   }
 
   // post message
@@ -49,7 +63,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text(
-          "scrap",
+          "s c r a p",
           style: TextStyle(
             fontFamily: 'Karla',
             fontWeight: FontWeight.bold,
@@ -57,15 +71,11 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        actions: [
-          // sign out button
-          IconButton(
-              onPressed: logout,
-              icon: Icon(Icons.logout,
-                  color: Theme.of(context).colorScheme.tertiary))
-        ],
       ),
-      drawer: MyDrawer(),
+      drawer: MyDrawer(
+        onProfileTap: toProfilePage,
+        onLogoutTap: logout,
+      ),
       body: Center(
         child: Column(
           children: [
